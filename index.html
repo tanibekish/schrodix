@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schrodix - Schrödinger's Rewards</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0e1a;
+            --bg-darker: #050810;
+            --yellow: #FFB800;
+            --orange: #FF6B00;
+            --purple: #8B5CF6;
+            --cyan: #06B6D4;
+            --text-light: #e4e4e7;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Playful glowing blobs */
+        .blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .blob-1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--yellow), var(--orange));
+            top: -200px;
+            right: -100px;
+            animation: float-blob 15s ease-in-out infinite;
+        }
+
+        .blob-2 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, var(--orange), var(--yellow));
+            bottom: -150px;
+            left: -100px;
+            animation: float-blob 12s ease-in-out infinite reverse;
+        }
+
+        .blob-3 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--yellow), transparent);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse-blob 8s ease-in-out infinite;
+        }
+
+        @keyframes float-blob {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(30px, -30px) scale(1.1);
+            }
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+        }
+
+        @keyframes pulse-blob {
+            0%, 100% {
+                opacity: 0.3;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+        }
+
+        /* Particle effects */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--yellow);
+            border-radius: 50%;
+            opacity: 0;
+            animation: sparkle 3s infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: translateY(0) scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-50px) scale(1);
+            }
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        /* Logo */
+        .logo {
+            font-family: 'Righteous', cursive;
+            font-size: 2.5rem;
+            text-align: center;
+            margin: 2rem 0 1rem;
+            letter-spacing: 0.05em;
+            animation: slide-down 0.8s ease-out;
+        }
+
+        .logo-text {
+            background: linear-gradient(135deg, var(--text-light), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-x {
+            color: var(--yellow);
+            text-shadow: 0 0 20px var(--yellow);
+            animation: glow-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes slide-down {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% {
+                text-shadow: 0 0 20px var(--yellow);
+            }
+            50% {
+                text-shadow: 0 0 30px var(--yellow), 0 0 40px var(--orange);
+            }
+        }
+
+        /* Hero section */
+        .hero {
+            text-align: center;
+            margin: 2rem 0;
+            animation: fade-in 1s ease-out 0.3s both;
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .headline {
+            font-family: 'Righteous', cursive;
+            font-size: 2rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-light), var(--yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subheadline {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 3rem;
+        }
+
+        /* Mystery Box */
+        .mystery-box-container {
+            position: relative;
+            margin: 3rem auto;
+            width: 280px;
+            height: 280px;
+            animation: fade-in 1.2s ease-out 0.6s both;
+        }
+
+        .mystery-box {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            perspective: 1000px;
+            animation: float-box 6s ease-in-out infinite;
+        }
+
+        @keyframes float-box {
+            0%, 100% {
+                transform: translateY(0) rotateY(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotateY(5deg);
+            }
+        }
+
+        /* Box structure */
+        .box {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 40px auto 0;
+        }
+
+        /* Box body */
+        .box-body {
+            position: absolute;
+            width: 200px;
+            height: 160px;
+            bottom: 0;
+            background: linear-gradient(135deg, #1a1f35, #0f1420);
+            border: 3px solid var(--purple);
+            border-radius: 8px;
+            box-shadow: 
+                0 0 30px rgba(139, 92, 246, 0.3),
+                inset 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Box lid */
+        .box-lid {
+            position: absolute;
+            width: 220px;
+            height: 50px;
+            top: 20px;
+            left: -10px;
+            background: linear-gradient(135deg, #2a2f45, #1a1f35);
+            border: 3px solid var(--purple);
+            border-radius: 8px;
+            box-shadow: 
+                0 0 30px rgba(139, 92, 246, 0.3),
+                inset 0 0 20px rgba(0, 0, 0, 0.5);
+            transform-origin: bottom;
+            animation: lid-wobble 4s ease-in-out infinite;
+        }
+
+        @keyframes lid-wobble {
+            0%, 100% {
+                transform: rotateX(0deg);
+            }
+            25% {
+                transform: rotateX(-2deg);
+            }
+            75% {
+                transform: rotateX(2deg);
+            }
+        }
+
+        .box-lid::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 8px;
+            background: var(--yellow);
+            border-radius: 4px;
+            box-shadow: 0 0 10px var(--yellow);
+        }
+
+        /* Box opening (dark gap) */
+        .box-opening {
+            position: absolute;
+            width: 180px;
+            height: 80px;
+            top: 65px;
+            left: 10px;
+            background: linear-gradient(to bottom, #000000, #0a0e1a);
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.9);
+        }
+
+        /* Cat eyes */
+        .cat-eyes {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 40px;
+            animation: blink 4s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 96%, 100% {
+                opacity: 1;
+            }
+            98% {
+                opacity: 0;
+            }
+        }
+
+        .eye {
+            position: absolute;
+            width: 30px;
+            height: 40px;
+            background: radial-gradient(ellipse at center, var(--yellow) 30%, var(--orange) 70%, transparent);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            filter: blur(1px);
+            animation: glow-eyes 2s ease-in-out infinite;
+        }
+
+        .eye.left {
+            left: 20px;
+        }
+
+        .eye.right {
+            right: 20px;
+        }
+
+        @keyframes glow-eyes {
+            0%, 100% {
+                filter: blur(1px) brightness(1);
+                box-shadow: 0 0 20px var(--yellow);
+            }
+            50% {
+                filter: blur(1px) brightness(1.3);
+                box-shadow: 0 0 30px var(--yellow), 0 0 40px var(--orange);
+            }
+        }
+
+        .pupil {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 20px;
+            background: #000;
+            border-radius: 50%;
+        }
+
+        /* Scanning effect */
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+            box-shadow: 0 0 10px var(--cyan);
+            animation: scan 3s linear infinite;
+            z-index: 10;
+        }
+
+        @keyframes scan {
+            0% {
+                top: 0;
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
+        }
+
+        /* Question marks floating */
+        .floating-symbols {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .symbol {
+            position: absolute;
+            font-size: 2rem;
+            color: var(--yellow);
+            opacity: 0;
+            animation: float-symbol 4s ease-in-out infinite;
+        }
+
+        .symbol:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .symbol:nth-child(2) {
+            top: 20%;
+            right: 10%;
+            animation-delay: 1.3s;
+        }
+
+        .symbol:nth-child(3) {
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 2.6s;
+        }
+
+        @keyframes float-symbol {
+            0%, 100% {
+                opacity: 0;
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                opacity: 0.6;
+                transform: translateY(-30px) rotate(360deg);
+            }
+        }
+
+        /* Launch button */
+        .launch-button-container {
+            margin: 3rem 0 2rem;
+            animation: fade-in 1.4s ease-out 0.9s both;
+        }
+
+        .launch-button {
+            width: 100%;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--yellow), var(--orange));
+            border: none;
+            border-radius: 16px;
+            font-family: 'Righteous', cursive;
+            font-size: 1.5rem;
+            color: var(--bg-dark);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 10px 40px rgba(255, 184, 0, 0.4),
+                0 0 0 0 rgba(255, 184, 0, 0.7);
+            animation: pulse-button 2s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes pulse-button {
+            0%, 100% {
+                box-shadow: 
+                    0 10px 40px rgba(255, 184, 0, 0.4),
+                    0 0 0 0 rgba(255, 184, 0, 0.7);
+            }
+            50% {
+                box-shadow: 
+                    0 10px 60px rgba(255, 184, 0, 0.6),
+                    0 0 0 10px rgba(255, 184, 0, 0);
+            }
+        }
+
+        .launch-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 
+                0 15px 60px rgba(255, 184, 0, 0.6),
+                0 0 0 0 rgba(255, 184, 0, 0);
+        }
+
+        .launch-button:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .launch-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        .telegram-icon {
+            width: 32px;
+            height: 32px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        /* Features */
+        .features {
+            margin: 2rem 0;
+            animation: fade-in 1.6s ease-out 1.2s both;
+        }
+
+        .feature {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 184, 0, 0.1);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            background: rgba(255, 184, 0, 0.05);
+            border-color: rgba(255, 184, 0, 0.3);
+            transform: translateX(5px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .feature-text h3 {
+            font-family: 'Righteous', cursive;
+            font-size: 1.1rem;
+            color: var(--yellow);
+            margin-bottom: 0.25rem;
+        }
+
+        .feature-text p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            animation: fade-in 1.8s ease-out 1.5s both;
+        }
+
+        .footer-link {
+            color: var(--yellow);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--orange);
+        }
+
+        /* Responsive */
+        @media (max-width: 400px) {
+            .logo {
+                font-size: 2rem;
+            }
+
+            .headline {
+                font-size: 1.6rem;
+            }
+
+            .subheadline {
+                font-size: 1rem;
+            }
+
+            .mystery-box-container {
+                width: 240px;
+                height: 240px;
+            }
+
+            .box {
+                width: 170px;
+                height: 170px;
+            }
+
+            .box-body {
+                width: 170px;
+                height: 130px;
+            }
+
+            .box-lid {
+                width: 190px;
+            }
+
+            .box-opening {
+                width: 150px;
+                height: 65px;
+            }
+
+            .launch-button {
+                font-size: 1.3rem;
+                padding: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Glowing blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <!-- Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Main container -->
+    <div class="container">
+        <!-- Logo -->
+        <div class="logo">
+            <span class="logo-text">Schrodi</span><span class="logo-x">x</span>
+        </div>
+
+        <!-- Hero section -->
+        <div class="hero">
+            <h1 class="headline">Is the cat alive with&nbsp;rewards?</h1>
+            <p class="subheadline">Tap the box to find out. Play, predict, and earn airdrop points.</p>
+        </div>
+
+        <!-- Mystery Box -->
+        <div class="mystery-box-container">
+            <div class="floating-symbols">
+                <div class="symbol">?</div>
+                <div class="symbol">?</div>
+                <div class="symbol">?</div>
+            </div>
+            
+            <div class="mystery-box">
+                <div class="box">
+                    <div class="scan-line"></div>
+                    <div class="box-lid"></div>
+                    <div class="box-opening">
+                        <div class="cat-eyes">
+                            <div class="eye left">
+                                <div class="pupil"></div>
+                            </div>
+                            <div class="eye right">
+                                <div class="pupil"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Launch Button -->
+        <div class="launch-button-container">
+            <button class="launch-button" onclick="launchApp()">
+                <svg class="telegram-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.781-.417-1.21.258-1.911.177-.184 3.247-2.977 3.307-3.23.007-.032.015-.15-.056-.212-.07-.062-.174-.041-.249-.024-.106.024-1.793 1.139-5.062 3.345-.479.329-.913.489-1.302.48-.428-.008-1.252-.242-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.324-.437.892-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.14.121.099.154.232.17.325.016.093.036.305.02.472z"/>
+                </svg>
+                <span>LAUNCH APP</span>
+            </button>
+        </div>
+
+        <!-- Features -->
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🎮</div>
+                <div class="feature-text">
+                    <h3>Quantum Gaming</h3>
+                    <p>Every tap reveals a new reality. Win rewards or nothing—until you open the box!</p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎯</div>
+                <div class="feature-text">
+                    <h3>Predict & Earn</h3>
+                    <p>Make predictions on crypto markets and stack airdrop points for future rewards.</p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-text">
+                    <h3>Instant on Telegram</h3>
+                    <p>No downloads. No hassle. Play directly in your favorite messaging app.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>A playful experiment by <a href="https://schrodex.com" class="footer-link">Schrodex</a></p>
+            <p style="margin-top: 0.5rem; font-size: 0.8rem;">🐱 The cat's fate is in your hands</p>
+        </div>
+    </div>
+
+    <script>
+        // Create sparkle particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 3 + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Launch app function
+        function launchApp() {
+            // Add your Telegram Mini App link here
+            const telegramAppUrl = 'https://t.me/your_bot_name/your_app_name';
+            
+            // For now, show an alert
+            alert('🎉 Launching Schrodix...\n\n(Replace with your actual Telegram Mini App link)');
+            
+            // Uncomment this when you have your Telegram link:
+            // window.open(telegramAppUrl, '_blank');
+            
+            // Add a fun effect
+            document.querySelector('.mystery-box').style.animation = 'none';
+            setTimeout(() => {
+                document.querySelector('.mystery-box').style.animation = 'float-box 6s ease-in-out infinite';
+            }, 10);
+        }
+
+        // Add interactive box click
+        document.querySelector('.mystery-box').addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 200);
+        });
+    </script>
+</body>
+</html>
