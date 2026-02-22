@@ -4,7 +4,7 @@ from aiogram.types import WebAppInfo, InlineKeyboardMarkup, InlineKeyboardButton
 import asyncio
 
 # Токен получишь у @BotFather
-TOKEN = "7389764739:AAGE01iEWM1zane0w72WSgpTIAiT-57vcPQ"
+TOKEN = "токен"
 # Ссылка на твой фронтенд (пока можно поставить любую, например google.com)
 APP_URL = "https://your-mini-app-url.com"
 
